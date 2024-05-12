@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Profile from "../public/img/profile.jpg";
 import Header from "./components/Header";
 
@@ -12,19 +12,30 @@ function App() {
     { title: "CV", link: "/assets/Currículo-Emaús Leonardo.pdf" } 
   ];
 
+  const menuRef = useRef();
+  const imgRef = useRef();
+
+
+  window.addEventListener('click', (e) => {
+    if(e.target !== menuRef.current && e.target !== imgRef.current) {
+      setOpen(false);
+    }
+  });
+
   return (
     <div>
       <Header/>
       <div className="h-screen bg-gray-200 flex justify-center pt-20">
         <div className="relative">
           <img
+          ref={imgRef}
             onClick={() => setOpen(!open)}
             src={Profile}
             alt="profile"
             className="h-28 w-28 object-cover rounded-full cursor-pointer hover:scale-110 hover:shadow-lg transition-all"
           />
           {open && (
-            <div className="bg-white p-4 w-52 shadow-lg absolute -left-12 top-[140px]">
+            <div ref={menuRef} className="bg-white p-4 w-52 shadow-lg absolute -left-12 top-[140px]">
               <ul className="flex flex-col   text-center justify-center">
                 {dropDownMenu.map((menuItem) => (
                   <li
